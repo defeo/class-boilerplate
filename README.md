@@ -1,4 +1,4 @@
 Class Boilerplate
 =================
 
-Boilerplate Jekyll code for class material.
+Boilerplate Hyde code for class material.

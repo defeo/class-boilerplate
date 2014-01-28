@@ -1,0 +1,14 @@
+mode: development
+base_url: /class-boilerplate
+plugins:
+  - hyde.ext.plugins.meta.MetaPlugin
+  - hyde.ext.plugins.auto_extend.AutoExtendPlugin
+  - hyde.ext.plugins.syntext.SyntextPlugin
+  - hyde.ext.plugins.textlinks.TextlinksPlugin
+context:
+  data:
+    github: https://github.com/defeo
+    github_base: https://github.com/defeo/class-boilerplate
+    github_blob: https://github.com/defeo/class-boilerplate/blob/hyde
+meta:
+    nodemeta: meta.yaml
