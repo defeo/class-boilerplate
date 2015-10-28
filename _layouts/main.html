@@ -11,6 +11,12 @@
       {% endif %}
     </title>
 
+    {% assign filename = page.path | split: '/' | last %}
+    {% assign urlend = page.url | split: '' | last %}
+    {% if urlend == '/' and filename != 'index.html' and filename != 'index.md' %}
+    <base href="..">
+    {% endif %}
+    
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/font-awesome.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
     <link href="{{ github_commits }}.atom" rel="alternate" title="Recent Commits to {{ site.github.repository_name }}" type="application/atom+xml" />
