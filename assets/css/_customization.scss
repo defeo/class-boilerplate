@@ -1,5 +1,3 @@
----
----
 /**********************************************
 
   Style customization. Feel free to adapt.
@@ -15,33 +13,106 @@
 }
 @media (min-width: 38em) { .normaltext { font-size: 22px; } }
 .monotext { font-family: "Courier New", courier, monospace; }
-html, input, textarea, select, button { @extend .normaltext; }
+html { @extend .normaltext; }
 tt, code { @extend .monotext; }
 
 /**
   Global styling.
 */
 body {
-    background-color: #fff;
-    padding-left: 20px;
+    background-color: $background-color;
     line-height: 1.2;
 }
-footer {
-    margin-left: -20px;
+.container {
+    max-width: 45rem;
+    padding: 0 5px;
+    margin: auto;
+}
+footer.footer {
     font-size: smaller;
+    color: $footer-text-color;
+    border-top: solid thin $footer-line-color;
+    margin-top: 4ex; padding: 2ex 0;
 }
-ul.menu {
-    margin-top: 1em;
-    margin-bottom: 1em;
+.toggle {
+    cursor: pointer;
 }
-ul.submenu {
-    border-radius: 4px;
-    box-shadow: 1px 1px 1px #555;
+
+/**
+  Top bar
+*/
+#topbar {
+    margin-top: 5px;
+    color: $topbar-text-color;
+    border-bottom: solid thin $topbar-line-color;
+    
+    a {
+	display: block;
+	padding: 5px;
+	text-decoration: none;
+	font: { size: 90%; weight: bold; }
+	color: $topbar-text-color;
+	&:hover, &:focus { color: $topbar-active-color; }
+    }
+    .menu a.toggled:before {
+	border-bottom-color: $topbar-line-color;
+	border-width: 0.5em;
+    }
+    $vertical-margin: 5px;
+    #logo, button.toggle { margin: $vertical-margin 15px; }
+    .submenu {
+	margin-top: $vertical-margin + 1px;
+	background-color: transparentize($background-color, 0.1);
+    }
+    li { margin: $vertical-margin 10px; }
+
+    /* Narrow screen */
+    button.toggle {
+	padding: 2px 4px;
+	border-radius: 4px;
+	border: solid thin $topbar-line-color;
+	background-color: transparent;
+	background-image: none;
+	&:hover, &:focus { background-color: $topbar-line-color; }
+    }
+    @include narrow-screen {
+	.menu { border-top: solid thin $topbar-line-color; }
+	.submenu {
+	    padding-left: 1.5em;
+	    border: none;
+	    margin-top: 0;
+	}
+    }
+
+    /* Do not print */
+    @media print { display: none; }
 }
-a {
-    color: #268bd2;
-    text-decoration: none;
-    &:hover, &:focus { text-decoration: underline }
+
+/**
+  Forkme ribbon
+*/
+#forkme {
+    height: $forkme-ribbon-size; width: $forkme-ribbon-size;
+    font: { family: Helvetica, sans-serif; size: 13px; weight: bold; }
+    a {
+	text-align: center;
+	padding: 4px $forkme-ribbon-size/10;
+	background-color: $forkme-color;
+	color: $forkme-text-color;
+	border: 1px solid transparentize($forkme-text-color, 0.5);
+	text-decoration: none;
+	box-shadow: 0 0 2px 2px $forkme-color;
+	transition: box-shadow 0.25s;
+	&:hover { box-shadow: 0 0 4px 4px $forkme-color; }
+    }
+
+    @include narrow-screen {
+	height: auto;
+	margin: 5px auto;
+    }
+
+    /* Do not print */
+    @media print { display: none; }
 }
 
 /**
@@ -53,16 +124,15 @@ a {
     
     /* Blocks */
     h1, h2, h3, h4, h5, h6 {
-	margin-top: 0.5em;
-	margin-bottom: 0.25em;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
 	font-weight: bold;
     }
-    h1, h2 { margin-left: -20px }
     h1 {
 	font-size: 2em;
 	.subtitle {
 	    font-size: 0.5em;
-	    color: #999;
+	    color: $subtitle-color;
 	}
     }
     h2 {
@@ -103,9 +173,9 @@ a {
     /* Pre-formatted blocks */
     pre {
 	clear: both;
-	background-color: #eee;
+	background-color: $pre-background-color;
 	border-radius: 4px;
-	border: solid thin #aaa;
+	border: solid thin $pre-border-color;
 	padding-left: 2ex;
 	overflow-x: auto;
     }
@@ -117,7 +187,12 @@ a {
     sup, sub, small { font-size: smaller; }
     sup { vertical-align: super; }
     sub { vertical-align: sub; }
-    :not(pre) > code { color: #d00; }
+    :not(pre) > code { color: $code-color; }
+    a {
+	color: $link-color;
+	text-decoration: none;
+	&:hover, &:focus { text-decoration: underline }
+    }
 
     /* Horrible hack, waiting for CSS3 text-decoration */
     a code, code a {
@@ -137,7 +212,7 @@ a {
 	@extend .footnotesize;
 	margin-top: 2em;
 	&::before {
-	    border-top: solid thin #888;
+	    border-top: solid thin $footnote-line-color;
 	    width: 5em;
 	    display: block;
 	    content: '';

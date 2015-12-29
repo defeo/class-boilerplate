@@ -6,14 +6,14 @@
 
 **********************************************/
 
+@import "constants";
+@import "mixins";
+
 /**
   CSS reset 
 */
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+*, *:after, *:before { box-sizing: inherit; }
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -39,42 +39,85 @@ blockquote, q {
     &::before, &::after { content: ''; content: none; }
 }
 table { border-collapse: collapse; border-spacing: 0; }
+input, textarea, select, button {
+    color: inherit;
+    font-size: inherit;
+}
 
-/**
-  Page Structure
-*/
-body {
-    width: 85%;
-    min-width: 200px;
-    margin: auto;
-}
-footer {
-    border-top: solid thin black;
-    margin-top: 4ex;
-}
+/* Top-level positioning */
+body { position: relative; }
 
 /**
   Menus and submenus
 */
-ul.menu {
-    list-style-type: none;
-    margin-right: 150px;
+#topbar {
+    @include valprefix(display, flex);
+    @include prefix(flex-flow, row wrap);
+    @include prefix(justify-content, space-between);
+    @include prefix(align-items, center);
+    position: relative;
     
-    &>li {
-	display: inline-block;
-	border-right: solid thin;
-	padding: 0 1ex;
-	&:last-child { border-right: none }
+    .menu, .submenu {
+	@include prefix(justify-content, flex-end);
+	list-style-type: none;
+    }
+    .menu {
+	@include valprefix(display, flex);
+	a.toggled:before {
+	    content: "";
+	    position: absolute;
+	    bottom: 0;
+	    border-style: solid;
+	    border-color: transparent;
+	    height: 0; width: 0;
+	}
+    }
+    .submenu {
+	display: none;
+	position: absolute;
+	left: 0; width: 100%;
+	&.active { @include valprefix(display, flex); }
+    }
+    
+    /* Narrow screen */
+    button.toggle {
+	display: none;
+	&:focus { outline: 0px none; }
+	&::-moz-focus-inner { border: none; }
+    }
+    @include narrow-screen {
+	button.toggle { @include valprefix(display, flex); }
+	.menu {
+	    display: none;
+	    width: 100%;
+	    a.toggled:before { border: none; }
+	}
+	.submenu { position: static; }
+	.menu, .submenu { &.active { display: block; } }
+    }	
+}
+    
+/*  Forkme ribbon */
+#forkme {
+    position: absolute;
+    @include valprefix(display, flex);
+    @include prefix(align-items, center);
+    bottom: 0; right: 0;
+    overflow: hidden;
+    pointer-events: none;
+    a {
+	display: block;
+	@include prefix(flex, 1 0);
+	@include prefix(transform,
+			rotate(-45deg) translateY($forkme-ribbon-size / 5) translateY(55%));
+	pointer-events: auto;
+    }
+
+    @include narrow-screen {
+	position: static;
+	a { @include prefix(transform, none); }
     }
 }
-ul.submenu {
-    display: none;
-    position: absolute;
-    background: white;
-    border: solid thin black;
-    list-style-type: none;
-    padding: 4px;
-}
-.active > .submenu, :hover > .submenu {
-    display: block;
-}
+
+
+@import "customization";
